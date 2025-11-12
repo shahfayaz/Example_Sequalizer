@@ -17,6 +17,8 @@ router.get('/user/post/add', userController.addPost);
 // Add a comment to a post
 router.get('/user/comment/add', userController.addComment);
 
+// Delete a comment
+router.get('/user/comment/delete', userController.deleteComment);
 
 
 module.exports = router;
