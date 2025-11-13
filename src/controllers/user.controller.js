@@ -41,6 +41,37 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+exports.getUserPagination = async(req, res) => {
+  try{
+    const users = await User.findAndCountAll({
+      limit: req.query.limit || 10,
+      offset: req.query.offset || 0,
+      distinct: true,
+      order: [["id", "ASC"]],
+      attributes: ["id", "firstName", "lastName", "age", "email", "createdAt"],
+      include: [
+        {
+          model: Post,
+          as: "posts",
+          order: [["id", "ASC"]],
+          attributes: ["id", "title", "content", "createdAt"],
+          include: [
+            {
+              model: Comment,
+              as: "comments",
+              order: [["id", "ASC"]],
+              attributes: ["id", "text", "createdAt"]
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // Get a user by ID
 exports.getUserById = async (req, res) => {
   try {

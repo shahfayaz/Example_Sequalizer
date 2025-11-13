@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-  }, {paranoid: true});
+  }, {paranoid: true, indexes: [{fields: ['postId']}]});
 
   // Define relationships
   Comment.associate = (models) => {

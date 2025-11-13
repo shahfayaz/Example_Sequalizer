@@ -20,5 +20,7 @@ router.get('/user/comment/add', userController.addComment);
 // Delete a comment
 router.get('/user/comment/delete', userController.deleteComment);
 
+// Get users with pagination
+router.get('/user/pagination', userController.getUserPagination);
 
 module.exports = router;

@@ -7,8 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     content: {
       type: DataTypes.TEXT,
     },
-    
-  });
+  }, {indexes: [{fields: ['userId']}]});
 
   // Define relationships
   Post.associate = (models) => {
