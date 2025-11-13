@@ -29,7 +29,7 @@ exports.getAllUsers = async (req, res) => {
               model: Comment,
               as: "comments",
               order: [["id", "ASC"]],
-              attributes: ["id", "text", "createdAt"],
+              attributes: ["id", "text", "createdAt"]
             },
           ],
         },
