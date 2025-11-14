@@ -23,4 +23,9 @@ router.get('/user/comment/delete', userController.deleteComment);
 // Get users with pagination
 router.get('/user/pagination', userController.getUserPagination);
 
+router.get('/user/cache', userController.saveUserByCache);
+
+// Delete a user by ID
+router.get('/user/delete', userController.userDelete);
+
 module.exports = router;

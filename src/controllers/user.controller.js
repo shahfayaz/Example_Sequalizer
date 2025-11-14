@@ -29,7 +29,7 @@ exports.getAllUsers = async (req, res) => {
               model: Comment,
               as: "comments",
               order: [["id", "ASC"]],
-              attributes: ["id", "text", "createdAt"]
+              attributes: ["id", "text", "createdAt"],
             },
           ],
         },
@@ -41,8 +41,8 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.getUserPagination = async(req, res) => {
-  try{
+exports.getUserPagination = async (req, res) => {
+  try {
     const users = await User.findAndCountAll({
       limit: req.query.limit || 10,
       offset: req.query.offset || 0,
@@ -60,7 +60,7 @@ exports.getUserPagination = async(req, res) => {
               model: Comment,
               as: "comments",
               order: [["id", "ASC"]],
-              attributes: ["id", "text", "createdAt"]
+              attributes: ["id", "text", "createdAt"],
             },
           ],
         },
@@ -70,7 +70,7 @@ exports.getUserPagination = async(req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 // Get a user by ID
 exports.getUserById = async (req, res) => {
@@ -78,6 +78,10 @@ exports.getUserById = async (req, res) => {
     const user = await User.findByPk(req.params.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+    const isMatch = await user.authenticate(req.query.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -116,3 +120,26 @@ exports.deleteComment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.saveUserByCache = async (req, res) => {
+  try {
+    const user = await User.cache("active-users").findAll();
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.userDelete = async(req, res) => {
+  try {
+    const user = await User.destroy({
+      where: { id: req.query.id },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully", user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
