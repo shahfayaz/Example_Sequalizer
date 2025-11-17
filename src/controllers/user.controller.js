@@ -11,6 +11,19 @@ exports.createUser = async (req, res) => {
   }
 };
 
+exports.updateUser = async(req, res) => {
+  try {
+    const user = await User.findByPk(req.query.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await user.update(req.query);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // Get all users
 exports.getAllUsers = async (req, res) => {
   try {

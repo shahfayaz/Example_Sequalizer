@@ -25,6 +25,11 @@ router.get('/user/pagination', userController.getUserPagination);
 
 router.get('/user/cache', userController.saveUserByCache);
 
+// Update a user by ID
+router.get('/user/update', userController.updateUser);
+
+
+
 // Delete a user by ID
 router.get('/user/delete', userController.userDelete);
 

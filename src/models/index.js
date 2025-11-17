@@ -55,7 +55,7 @@ fs.readdirSync(__dirname)
       Sequelize.DataTypes
     );
     withCache(model);
-    // Temporal(model, sequelize);
+    Temporal(model, sequelize);
     db[model.name] = model;
   });
 
